@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, flash
 import sqlite3
+import os
+from datetime import datetime
+from difflib import SequenceMatcher
 
 app = Flask(__name__)
 app.secret_key = "codealpha"
@@ -15,12 +18,24 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            email TEXT
+            email TEXT,
+            registered_at TEXT
         )
     ''')
 
     conn.commit()
     conn.close()
+
+def is_similar(email1, email2):
+
+    username1 = email1.split('@')[0]
+    username2 = email2.split('@')[0]
+
+    similarity = SequenceMatcher(
+        None, username1, username2
+    ).ratio()
+
+    return similarity >= 0.75
 
 @app.route('/',)
 def home():
@@ -76,11 +91,27 @@ def submit():
         flash('Duplicate user found!!', 'error')
 
         return redirect("/")
+    
+    cursor.execute("SELECT email from users")
+    all_emails = cursor.fetchall()
+
+    #False Positive Detection
+    for existing_email in all_emails:
+        db_email = existing_email[0]
+
+        if is_similar(email, db_email):
+            conn.close()
+
+            flash(f"False Positive Detected!! Similar email exists: {db_email}", "error")
+
+            return redirect('/')
+
+    current_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
     # Insert Data
     cursor.execute(
-        "INSERT INTO users (name, email) VALUES (?, ?)",
-        (name, email)
+        "INSERT INTO users (name, email, registered_at) VALUES (?, ?, ?)",
+        (name, email, current_time)
     )
 
     conn.commit()
