@@ -174,7 +174,7 @@ https://data-redundancy-removal-system-98bz.onrender.com
 
 <img width="1916" height="1080" alt="Screenshot 2026-05-19 115824" src="https://github.com/user-attachments/assets/376972f6-f4aa-4204-8f95-5e496c4990d6" />
 
-<img width="1920" height="656" alt="image" src="https://github.com/user-attachments/assets/5ee84b2d-2de0-45eb-9bda-dedd092887e3" />Duplicate User detection
+## ❌ Duplicate User detection
 <img width="1918" height="557" alt="Screenshot 2026-05-19 120350" src="https://github.com/user-attachments/assets/eaaf0f2f-d50d-4186-a490-521fd30ad3f3" />
 <img width="1920" height="656" alt="Screenshot 2026-05-19 120432" src="https://github.com/user-attachments/assets/f4cd5c53-e3c6-4e22-bd00-65dbe5802ced" />
 
